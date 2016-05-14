@@ -1,0 +1,52 @@
+﻿body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+span {
+    font-style: italic;
+}
+div.scrollbodyCSS{
+    position:relative;
+    top:0px;
+    left:0px;
+}
+div.scrollboxCSS{
+    overflow:hidden;
+}
+div.selfElementCSS{
+    width:auto;
+    height:100%;
+    float:left;
+}
+div.scrollShellCSS{
+    position:relative;
+    display:block;
+}
+div.scrollBarRightCSS{
+    width:10px;    /*right scroll bar backgroud width*/
+    position:absolute;
+    top:0px;
+    background-color:transparent; /*scroll bar backgroud color*/
+}
+div.scrollBarRightLineCSS{
+    width:6px;  /*right scroll bar width*/
+    border-radius:3px; /*right scroll bar radius*/
+    height:1px;
+    background-color:black; /*right scroll bar color*/
+    margin-left:2px;      /*right scroll bar margin*/
+    margin-right:2px;   /*right scroll bar margin*/
+}
+div.scrollBarBottomCSS {
+    height:10px;  /*bottom scroll bar backgroud width*/
+    position: absolute;
+    left: 0px;
+    background-color:transparent;/*bottom scroll bar backgroud color*/
+}
+div.scrollBarBottomLineCSS{
+    width:1px;
+    border-radius:3px; /*bottom scroll bar radius*/
+    height:6px; /*bottom scroll bar width*/
+    background-color:black; /*bottom scroll bar color*/
+    margin-bottom:2px; /*bottom scroll bar margin*/
+    margin-top:2px; /*bottom scroll bar margin*/
+}

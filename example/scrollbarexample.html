@@ -9,8 +9,12 @@
     <script src="scroll.js"></script>
 </head>
 <body>
+    <div>ng-width set scroll bar width</div>
+    <div> ng-height set scroll bar height</div>
+    <div> ng-arrow set have arrow, "HasArrow" or "NoArrow"</div>
+    <div> ng-display set scroll bar is fixed or static in the page, "static" or "fixed"</div>
     <div ng-app="myApp" ng-controller="myCtrl">
-        <scroll ng-width="300px" ng-height="200px">
+        <scroll ng-width="300px" ng-height="200px" ng-arrow="HasArrow" ng-display="static">
             welcome : <input ng-model="name">
            <div>my {{name}}</div>
         <div style="width: 800px; height: 500px;background-color:blue;border-radius:100px;"></div>

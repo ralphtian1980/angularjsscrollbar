@@ -10,37 +10,20 @@
 </head>
 <body>
     <div ng-app="myApp" ng-controller="myCtrl">
-        <scroll ng-width="300px" ng-height="200px">
+        <scroll ng-width=300 ng-height="400px" ng-arrow="HasArrow" ng-display="static">
             welcome : <input ng-model="name">
            <div>my {{name}}</div>
         <div style="width: 800px; height: 500px;background-color:blue;border-radius:100px;"></div>
         </scroll>
-
     </div>
-    <div>other scroll bar</div>
-    <div>One page have two scroll bar</div>
-    <div id="otherapp" ng-controller="myCtrl">
-        <scroll ng-width="300px" ng-height="200px">
-            welcome : <input ng-model="name">
-            <div>my {{name}}</div>
-            <div style="width: 800px; height: 500px;background-color:blue;border-radius:100px;"></div>
-        </scroll>
 
-    </div>
     <script>
         var app = angular.module('myApp', []);
         //var es = new Scroll.Scrollbar(app);
-        var one =new Scroll.Scrollbar(app);
+        Scroll.Scrollbar(app);
         app.controller('myCtrl', function ($scope) {
             $scope.name = " scroll bar";
         });
-        var app = angular.module('myApp1', []);
-        //var es = new Scroll.Scrollbar(app);
-        var one = new Scroll.Scrollbar(app);
-        app.controller('myCtrl', function ($scope) {
-            $scope.name = " scroll bar";
-        });
-        angular.bootstrap(document.getElementById("otherapp"), ['myApp1']);
     </script>
 </body>
 </html>

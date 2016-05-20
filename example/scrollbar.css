@@ -36,6 +36,12 @@ div.scrollBarRightLineCSS{
     margin-left:2px;      /*right scroll bar margin*/
     margin-right:2px;   /*right scroll bar margin*/
 }
+div.scrollBarRightLineCSS:hover{
+    background-color:brown; /*bottom scroll bar hover color*/
+}
+div.scrollBarRightLineCSS:active {
+    background-color:brown;/*bottom backgroud arrow hover color*/
+}
 div.scrollBarBottomCSS {
     height:10px;  /*bottom scroll bar backgroud width*/
     position: absolute;
@@ -53,6 +59,12 @@ div.scrollBarBottomLineCSS{
     margin-top:2px; /*bottom scroll bar margin*/
     display:inline-block;
 }
+div.scrollBarBottomLineCSS:hover{
+    background-color:brown; /*bottom scroll bar hover color*/
+}
+div.scrollBarBottomLineCSS:active {
+    background-color:brown;/*bottom backgroud arrow hover color*/
+}
 div.sBBottomArrowBoxCSS {
     width: 0px;
     height: 100%;
@@ -61,7 +73,8 @@ div.sBBottomArrowBoxCSS {
     display: inline-block;
 }
 div.scrollBarArrowArrowCSS{
-    border-color:black;/*arrow color*/
+    border-color:yellow;/*arrow color*/
+    background-color:blue;/*arrow be clicked color*/
     width: 0;
     height: 0;
 }
@@ -70,4 +83,42 @@ div.sBRightArrowBoxCSS {
     height: 0px;
     background-color:red;/*right backgroud arrow color*/
     overflow: hidden;
+}
+div.sBRightArrowBoxCSS:hover {
+    background-color:blueviolet;/*right backgroud arrow hover color*/
+}
+div.sBBottomArrowBoxCSS:hover {
+
+    background-color:blueviolet;/*bottom backgroud arrow hover color*/
+}
+.noselect{
+    -moz-user-select: none;
+}
+.arrowUp {
+    width:0; 
+    height:0; 
+    border-left:10px solid transparent;
+    border-right:10px solid transparent;
+    border-bottom:10px solid #fff;
+}
+.arrowDown {
+    width:0; 
+    height:0; 
+    border-left:10px solid transparent;
+    border-right:10px solid transparent;
+    border-top:10px solid #0066cc;
+}
+.arrowLeft {
+    width:0; 
+    height:0; 
+    border-top:10px solid transparent;
+    border-bottom:10px solid transparent; 
+    border-right:10px solid yellow; 
+}
+.arrowRight {
+    width:0; 
+    height:0; 
+    border-top:10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid green;
 }

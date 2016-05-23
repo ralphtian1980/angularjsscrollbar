@@ -32,15 +32,11 @@
 
     </div>
     <script>
-        var app = angular.module('myApp', []);
-        //var es = new Scroll.Scrollbar(app);
-        var one =new Scroll.Scrollbar(app);
+        var app = angular.module('myApp', ['scrollbar']);
         app.controller('myCtrl', function ($scope) {
             $scope.name = " scroll bar";
         });
-        var app = angular.module('myApp1', []);
-        //var es = new Scroll.Scrollbar(app);
-        var one = new Scroll.Scrollbar(app);
+        var app = angular.module('myApp1', ['scrollbar']);
         app.controller('myCtrl', function ($scope) {
             $scope.name = " scroll bar";
         });

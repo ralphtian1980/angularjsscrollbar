@@ -73,13 +73,9 @@ namespace Scroll {
         scrollWidth: number;
         xpoint: number;
         ypoint: number;
+
         constructor(modules: any) {
-            if (modules == undefined) {
-                var app = angular.module("ScrollModule", []);
-                app.directive("scroll", this.buildfunction);
-            } else {
-                modules.directive("scroll", this.buildfunction);
-            }
+            return this.buildfunction();
         }
         private ArrowChangColor=(element: HTMLElement, style: string, color: string)=> {
             angular.element(element).css(style, color);
@@ -153,10 +149,10 @@ namespace Scroll {
             }
         }
         private MouseOverInBodys = (ex: any) => {
-            angular.element(document).bind("mousewheel DOMMouseScroll", this.MousewheelScroll); 
+            angular.element(ex.currentTarget).bind("mousewheel DOMMouseScroll", this.MousewheelScroll); 
         }
         private MouseleaveOutBodys = (ex: any) => {
-            angular.element(document).unbind("mousewheel DOMMouseScroll", this.MousewheelScroll); 
+            angular.element(ex.currentTarget).unbind("mousewheel DOMMouseScroll", this.MousewheelScroll); 
         }
         private BottomScrollMove = (move: number) => {
             if (this.scrollBarBottomLineNumber < this.scrollBoxWidth) {
@@ -240,6 +236,22 @@ namespace Scroll {
             angular.element(document.body).removeClass("noselect");
             angular.element(document).unbind("mousemove", this.MousemoveMovefn); 
         }
+        private BuildArrow = (childElement: any, element: HTMLElement, length: number, styleone: string, styletwo: string, stylethree: string, stylefour: string, movefunction: any, v: number, transformfunction: any) => {
+            this.ArrowCss = this.ArrowCss || window.getComputedStyle(element, "border-left-color")["border-left-color"];
+            this.ArrowCssBackground = this.ArrowCssBackground || window.getComputedStyle(element, "border-left-color")["background-color"];
+            childElement
+                .bind("click", () => {
+                    movefunction(v);
+                }).bind("mousedown", () => {
+                    angular.element(element).css(stylethree + "-color", this.ArrowCssBackground);
+                }).bind("mouseup", () => {
+                    if (transformfunction()) {
+                        angular.element(element).css(stylethree + "-color", this.ArrowCss);
+                    }
+                });
+            angular.element(element).css(styleone, length + "px solid transparent").css(styletwo, length + "px solid transparent")
+                .css(stylethree, length + "px solid " + this.ArrowCss).css(stylefour, length / 2 + "px").css("background-color", "transparent");
+        }
         UpdateScroll = (): number => {
             if (this.selfElement.offsetHeight != this.scrollBoxHeight) {
                 angular.element(this.scrollBarRightLine).unbind("mousedown", this.MousemoveSelectfn);
@@ -282,7 +294,7 @@ namespace Scroll {
             return 0;
         }
 
-        buildfunction = () => {
+        buildfunction = (): any => {
             let myself = this;
             return {
                 controller: function ($scope, $element, $attrs) {
@@ -317,46 +329,17 @@ namespace Scroll {
                                         if (angular.element(childElement).hasClass("sBRightArrowBoxCSS")) {
                                             if (angular.element(childElement).attr("name") == "up") {
                                                 myself.scrollBarArrowTop = childElement;
-                                                var upelement = angular.element(childElement).children()[0];
-                                                var length = myself.arrowRightHeight / 2;
-                                                var computedStyle = window.getComputedStyle(upelement, "border-left-color");
-                                                let colorup = computedStyle["border-left-color"];
-                                                let colorupb = computedStyle["background-color"];
-                                                myself.ArrowCss = colorup;
-                                                myself.ArrowCssBackground = colorupb;
-                                                angular.element(childElement).css("height", myself.arrowRightHeight + "px")
-                                                    .bind("click", () => {
-                                                        myself.RightScrollMove(-1);
-                                                    }).bind("mousedown", () => {
-                                                        angular.element(upelement).css("border-bottom-color", colorupb);
-                                                    }).bind("mouseup", () => {
-                                                        if (myself.scrollMarginTop != 0) {
-                                                            angular.element(upelement).css("border-bottom-color", colorup);
-                                                        }
-                                                    });                                                
-                                                angular.element(upelement).css("border-left", length + "px solid transparent").css("border-right", length+"px solid transparent")
-                                                    .css("border-bottom", length + "px solid " + colorup).css("margin-top", length / 2 + "px").css("background-color", "transparent");
+                                                let upelement = angular.element(childElement).children()[0];
+                                                let length = myself.arrowRightHeight / 2;
+                                                let cssstyle = "height";
+                                                let styleone = "border-left", styletwo = "border-right", stylethree = "border-bottom", stylefour = "margin-top";
+                                                myself.BuildArrow(angular.element(childElement).css(cssstyle, length * 2 + "px"), upelement, length, styleone, styletwo, stylethree, stylefour,
+                                                    myself.RightScrollMove, -1, () => { return myself.scrollMarginTop != 0; });
                                             }
                                             if (angular.element(childElement).attr("name") == "down") {
-                                                myself.scrollBarArrowBottom = childElement;
-                                                var downelement = angular.element(childElement).children()[0];
-                                                var computedStyle = window.getComputedStyle(downelement, "border-left-color");
-                                                let colordown = computedStyle["border-left-color"];
-                                                let colordownb = computedStyle["background-color"];
-                                                angular.element(childElement).css("height", myself.arrowRightHeight + "px").css("position", "absolute").css("bottom", "0px")
-                                                    .bind("click", () => {
-                                                        myself.RightScrollMove(1);
-                                                    }).bind("mousedown", () => {
-                                                        angular.element(downelement).css("border-top-color", colordownb);
-                                                    }).bind("mouseup", () => {
-                                                        if (myself.scrollMarginTop != (myself.scrollItemHeight - myself.scrollBarRightLineNumber - myself.arrowRightHeight * 2)) {
-                                                            angular.element(downelement).css("border-top-color", colordown);
-                                                        }
-                                                    });
-
-                                                var length = myself.arrowRightHeight / 2;
-                                                angular.element(downelement).css("border-left", length + "px solid transparent").css("border-right", length + "px solid transparent")
-                                                    .css("border-top", length + "px solid " + colordown).css("margin-top", length / 2 + "px").css("background-color", "transparent");
+                                                myself.scrollBarArrowBottom = childElement;        
+                                                myself.BuildArrow(angular.element(childElement).css("height", myself.arrowRightHeight + "px").css("position", "absolute").css("bottom", "0px"), angular.element(childElement).children()[0], myself.arrowRightHeight / 2,
+                                                    "border-left", "border-right", "border-top", "margin-top", myself.RightScrollMove, 1, () => { return (myself.scrollMarginTop != (myself.scrollItemHeight - myself.scrollBarRightLineNumber - myself.arrowRightHeight * 2)); });
                                             }
                                         }
                                     }
@@ -373,44 +356,15 @@ namespace Scroll {
                                         if (angular.element(childElement).hasClass("sBBottomArrowBoxCSS")) {
                                             if (angular.element(childElement).attr("name") == "right") {
                                                 myself.scrollBarArrowRight = childElement;
-                                                var rightelement = angular.element(childElement).children()[0];
-                                                var computedStyle = window.getComputedStyle(rightelement, "border-left-color");
-                                                let colorright = computedStyle["border-left-color"];
-                                                let colorrightb = computedStyle["background-color"];
-                                                angular.element(childElement).css("width", myself.arrowBottomHeight + "px").css("position", "absolute").css("right", "0px")
-                                                    .bind("click", () => {
-                                                        myself.BottomScrollMove(1);
-                                                    }).bind("mousedown", () => {
-                                                        angular.element(rightelement).css("border-left-color", colorrightb);
-                                                    }).bind("mouseup", () => {
-                                                        if (myself.scrollMarginleft != (myself.scrollItemWidth - myself.scrollBarBottomLineNumber - myself.arrowBottomHeight * 2)) {
-                                                            angular.element(rightelement).css("border-left-color", colorright);
-                                                        }
-                                                    });                                               
-                                                var length = myself.arrowBottomHeight / 2;
-                                                angular.element(rightelement).css("border-top", length + "px solid transparent").css("border-bottom", length + "px solid transparent")
-                                                    .css("border-left", length + "px solid " + colorright).css("margin-left", length / 2 + "px").css("background-color", "transparent");
+                                                myself.BuildArrow(angular.element(childElement).css("width", myself.arrowBottomHeight + "px").css("position", "absolute").css("right", "0px"),
+                                                    angular.element(childElement).children()[0], myself.arrowBottomHeight / 2, "border-top", "border-bottom", "border-left", "margin-left",
+                                                    myself.BottomScrollMove, 1, () => { return myself.scrollMarginleft != (myself.scrollItemWidth - myself.scrollBarBottomLineNumber - myself.arrowBottomHeight * 2); });
                                             }
                                             if (angular.element(childElement).attr("name") == "left") {
                                                 myself.scrollBarArrowLeft = childElement;
-                                                var leftelement = angular.element(childElement).children()[0];
-                                                var computedStyle = window.getComputedStyle(leftelement, "border-left-color");
-                                                let colorleft = computedStyle["border-left-color"];
-                                                let colorleftb = computedStyle["background-color"];
-                                                angular.element(childElement).css("width", myself.arrowBottomHeight + "px").bind("click", () => {
-                                                    myself.BottomScrollMove(-1);
-                                                }).bind("mousedown", () => {
-                                                    angular.element(leftelement).css("border-right-color", colorleftb);
-                                                }).bind("mouseup", () => {
-                                                    if (myself.scrollMarginleft != 0) {
-                                                        angular.element(leftelement).css("border-right-color", colorleft);
-                                                    }
-                                                });
-                                                
-                                                var length = myself.arrowBottomHeight / 2;
-                                                angular.element(leftelement).css("border-top", length + "px solid transparent").css("border-bottom", length + "px solid transparent")
-                                                    .css("border-right", length + "px solid " + colorleft).css("margin-left", length / 2 + "px").css("background-color", "transparent");
-
+                                                myself.BuildArrow(angular.element(childElement).css("width", myself.arrowBottomHeight + "px"), angular.element(childElement).children()[0],
+                                                    myself.arrowBottomHeight / 2, "border-top", "border-bottom", "border-right", "margin-left", myself.BottomScrollMove, -1
+                                                    , () => { return myself.scrollMarginleft != 0; });
                                             }
                                         }
                                     }
@@ -490,9 +444,13 @@ namespace Scroll {
                 link: function (tElem, tAttrs, ex) {
                     var x = ex;
                 },
+                restrict: 'E',
                 transclude: true,
                 replace: true
             };
         }
     }
+    angular.module('scrollbar', []).directive("scroll", () => {
+        return new Scrollbar("");
+    });
 }

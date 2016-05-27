@@ -341,7 +341,6 @@ var Scroll;
                     template: function ($scope, $element, $attrs) {
                         var isPX = /[1-9][0-9]*px/i;
                         var isNumber = /[1-9][0-9]*/i;
-                        var isPercentage = /[1-9][0-9]*%/i;
                         if ($element.ngDisplay != undefined) {
                             if (angular.uppercase($element.ngDisplay) == angular.uppercase(ScrollBarDisplay[ScrollBarDisplay.static])) {
                                 myself.ScrollDisplay = ScrollBarDisplay.static;

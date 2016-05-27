@@ -6,7 +6,8 @@
 	<meta charset="utf-8" />
     <link rel="stylesheet" href="scrollbar.css" type="text/css" />
     <script src="angular.js"></script>
-    <script src="scroll.js"></script>
+    <script src="scrollbarEx.js"></script>
+    <!--<script src="scroll.js"></script>-->
 </head>
 <body>
     <div>ng-width set scroll bar width</div>
@@ -31,16 +32,31 @@
         </scroll>
 
     </div>
+    
+        <div id="otherapp1" ng-controller="myCtrl1">
+            <div style="width:500px;height:500px;">
+                <scroll ng-width="50%" ng-height="50%" ng-layout="Percentage">
+                    welcome : <input ng-model="name">
+                    <div>my {{name}}</div>
+                    <div style="width: 800px; height: 500px;background-color:blue;border-radius:100px;"></div>
+                </scroll>
+            </div>
+        </div>
     <script>
         var app = angular.module('myApp', ['scrollbar']);
         app.controller('myCtrl', function ($scope) {
             $scope.name = " scroll bar";
         });
-        var app = angular.module('myApp1', ['scrollbar']);
-        app.controller('myCtrl', function ($scope) {
+        var app1 = angular.module('myApp1', ['scrollbar']);
+        app1.controller('myCtrl', function ($scope) {
+            $scope.name = " scroll bar";
+        });
+        var app2 = angular.module('myApp2', ['scrollbar']);
+        app2.controller('myCtrl1', function ($scope) {
             $scope.name = " scroll bar";
         });
         angular.bootstrap(document.getElementById("otherapp"), ['myApp1']);
+        angular.bootstrap(document.getElementById("otherapp1"), ['myApp2']);
     </script>
 </body>
 </html>

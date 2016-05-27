@@ -22,12 +22,14 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="angular.js" />
     <Content Include="scrollbar.css" />
     <Content Include="scrollbarexample.html" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scroll.ts" />
+    <TypeScriptCompile Include="scrollbarEx.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="web.Debug.config">

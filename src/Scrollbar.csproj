@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scroll.ts" />
+    <TypeScriptCompile Include="scrollbarEx.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="web.Debug.config">

@@ -349,8 +349,13 @@ namespace Scroll {
                 } else {
                     this.scrollBarRightLineNumber = ScrollNow;
                     this.scrollBarRightLine.style.height = ScrollNow + "px";
-                }
+                }                
                 angular.element(this.scrollBarRightLine).bind("mousedown", this.MousemoveSelectfn);
+                if (ScrollNow == this.scrollItemHeight) {
+                    angular.element(this.scrollBarRight).css("display", "none");
+                } else {
+                    angular.element(this.scrollBarRight).css("display", "block");
+                }
             }
             if (this.selfElement.offsetWidth != this.scrollBoxWidth) {
                 angular.element(this.scrollBarBottomLine).unbind("mousedown", this.MousemoveSelectBtfn);
@@ -369,6 +374,11 @@ namespace Scroll {
                     this.scrollBarBottomLine.style.width = ScrollNow + "px";
                 }
                 angular.element(this.scrollBarBottomLine).bind("mousedown", this.MousemoveSelectBtfn);
+                if (ScrollNow == this.scrollItemWidth) {
+                    angular.element(this.scrollBarBottom).css("display", "none");
+                } else {
+                    angular.element(this.scrollBarBottom).css("display", "block");
+                }
             }
             window.requestAnimationFrame(this.UpdateScroll);
             return 0;

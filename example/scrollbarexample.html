@@ -45,10 +45,10 @@
         </div>
     <script>
         var app = angular.module('myApp', ['scrollbar']);
-        app.controller('myCtrl', function ($scope, MyService) {
+        app.controller('myCtrl', function ($scope, ChangeScrollBar) {
             $scope.name = " scroll bar";
             $scope.toggle = function () {
-                MyService();
+                ChangeScrollBar();
             };
         });
         var app1 = angular.module('myApp1', ['scrollbar']);

@@ -6,3 +6,5 @@ It is only a example
 # angularjsscrollbar 0.0.2
 1,Add cursor 
 2,when scroll bar is end
+# angularjsscrollbar 0.4.1
+update layout 

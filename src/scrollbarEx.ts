@@ -4,6 +4,10 @@ namespace Scroll {
         HasArrow = 1,
         NoArrow
     }
+    enum Refresh{
+        Normal = 1,
+        Auto
+    }
     enum ScrollBarDisplay {
         Fixed = 1,
         Static,
@@ -24,6 +28,8 @@ namespace Scroll {
         Detail
     }
     export class ScrollbarEx {
+        scrollbarRefresh: Refresh;
+        public Directive: any;
         xpoint: number;
         ypoint: number;
         scrollMoveType: MoveType;
@@ -56,6 +62,7 @@ namespace Scroll {
         scrollMarginTop: number;
         scrollShell: HTMLElement;
         selfElement: HTMLElement;
+        static ScrollBarList: Array<ScrollbarEx>=[];
         scrollBoxStrWidth = (): string => {
             if (this.scrollLayoutWidth == Layout.Percentage) {
                 return this.scrollBoxWidth + "%";
@@ -71,7 +78,9 @@ namespace Scroll {
             }
         }
         constructor(modules: any) {
-            return this.buildfunction();
+            this.Directive = this.buildfunction();
+            ScrollbarEx.ScrollBarList.push(this);
+            return this.Directive;
         }
         buildfunction = (): any => {
             let myself = this;
@@ -181,6 +190,12 @@ namespace Scroll {
                     } else {
                         myself.scrollLayoutWidth = Layout.Solid;
                         myself.scrollLayoutHeight = Layout.Solid;
+                    }
+                    myself.scrollbarRefresh = Refresh.Normal;
+                    if ($element.ngRefresh != undefined) {
+                        if (angular.uppercase($element.ngRefresh) == angular.uppercase(Refresh[Refresh.Auto])) {
+                            myself.scrollbarRefresh = Refresh.Auto;
+                        }
                     }
                     var isNumber = /[1-9][0-9]*/i;
                     if ($element.ngDisplay != undefined) {
@@ -319,7 +334,7 @@ namespace Scroll {
                 angular.element(this.scrollbody).css("left", line * this.scrollBoxWidth / - this.scrollItemWidth + "px");
             }
         }
-        UpdateScroll = (): number => {
+        public UpdateScroll = (): number => {
             if (this.scrollLayoutHeight == Layout.Percentage) {
                 if (this.scrollItemHeight != this.scrollbox.clientHeight) {
                     this.scrollItemHeight = this.scrollbox.clientHeight;
@@ -349,7 +364,7 @@ namespace Scroll {
                 } else {
                     this.scrollBarRightLineNumber = ScrollNow;
                     this.scrollBarRightLine.style.height = ScrollNow + "px";
-                }                
+                }
                 angular.element(this.scrollBarRightLine).bind("mousedown", this.MousemoveSelectfn);
                 if (ScrollNow == this.scrollItemHeight) {
                     angular.element(this.scrollBarRight).css("display", "none");
@@ -380,7 +395,9 @@ namespace Scroll {
                     angular.element(this.scrollBarBottom).css("display", "block");
                 }
             }
-            window.requestAnimationFrame(this.UpdateScroll);
+            if (this.scrollbarRefresh == Refresh.Auto) {
+                window.requestAnimationFrame(this.UpdateScroll);
+            }
             return 0;
         }
         private NoSelect = (e) => {
@@ -481,5 +498,11 @@ namespace Scroll {
     }
     angular.module('scrollbar', []).directive("scroll", () => {
         return new ScrollbarEx("");
+    }).service('ChangeScrollBar', function () {
+        var _value= ScrollbarEx.ScrollBarList[ScrollbarEx.ScrollBarList.length - 1];
+        return () => {
+            _value.UpdateScroll();
+        };
+        //service code
     });
 }

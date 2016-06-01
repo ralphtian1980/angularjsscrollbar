@@ -1,0 +1,6 @@
+C:\Users\h146819\Source\Repos\angularjsscrollbar2\src\bin\Scrollbar.dll.config
+C:\Users\h146819\Source\Repos\angularjsscrollbar2\src\bin\Scrollbar.dll
+C:\Users\h146819\Source\Repos\angularjsscrollbar2\src\bin\Scrollbar.pdb
+C:\Users\h146819\Source\Repos\angularjsscrollbar2\src\obj\Debug\Scrollbar.csprojResolveAssemblyReference.cache
+C:\Users\h146819\Source\Repos\angularjsscrollbar2\src\obj\Debug\Scrollbar.dll
+C:\Users\h146819\Source\Repos\angularjsscrollbar2\src\obj\Debug\Scrollbar.pdb

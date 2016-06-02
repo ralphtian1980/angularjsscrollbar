@@ -6,6 +6,12 @@ var Scroll;
         ArrowState[ArrowState["HasArrow"] = 1] = "HasArrow";
         ArrowState[ArrowState["NoArrow"] = 2] = "NoArrow";
     })(ArrowState || (ArrowState = {}));
+    var Refresh;
+    (function (Refresh) {
+        Refresh[Refresh["Normal"] = 1] = "Normal";
+        Refresh[Refresh["Manual"] = 2] = "Manual";
+        Refresh[Refresh["Auto"] = 3] = "Auto";
+    })(Refresh || (Refresh = {}));
     var ScrollBarDisplay;
     (function (ScrollBarDisplay) {
         ScrollBarDisplay[ScrollBarDisplay["Fixed"] = 1] = "Fixed";
@@ -77,6 +83,14 @@ var Scroll;
                                 if (angular.element(itemlist[i]).hasClass("scrollbodyCSS")) {
                                     myself.scrollbody = itemlist[i];
                                     myself.selfElement = angular.element(myself.scrollbody).children("div.selfElementCSS")[0];
+                                    if (myself.scrollbarRefresh == Refresh.Normal) {
+                                        var mo = new MutationObserver(function () { myself.UpdateScroll(); });
+                                        var option = {
+                                            'subtree': true,
+                                            'characterData': true
+                                        };
+                                        mo.observe(myself.selfElement, option);
+                                    }
                                 }
                                 if (angular.element(itemlist[i]).hasClass("scrollBarRightCSS")) {
                                     myself.scrollBarRight = itemlist[i];
@@ -129,16 +143,11 @@ var Scroll;
                             myself.UpdateScroll();
                             angular.element(myself.scrollBarRightLine).bind("dragstart", t);
                             angular.element(myself.scrollBarBottomLine).bind("dragstart", t);
-                            //angular.element(window).bind("resize", function (e) {
-                            //    if (myself.scrollLayoutHeight == Layout.Percentage) {
-                            //        myself.scrollItemHeight = myself.scrollbox.clientHeight;
-                            //        myself.scrollBoxHeight = 0;
-                            //    }
-                            //    if (myself.scrollLayoutWidth == Layout.Percentage) {
-                            //        myself.scrollItemWidth = myself.scrollbox.clientWidth;
-                            //        myself.scrollBoxWidth = 0;
-                            //    }
-                            //});
+                            if (myself.scrollbarRefresh == Refresh.Normal) {
+                                angular.element(window).bind("resize", function (e) {
+                                    myself.UpdateScroll();
+                                });
+                            }
                         };
                         angular.element().ready(f);
                     },
@@ -150,6 +159,15 @@ var Scroll;
                         else {
                             myself.scrollLayoutWidth = Layout.Solid;
                             myself.scrollLayoutHeight = Layout.Solid;
+                        }
+                        myself.scrollbarRefresh = Refresh.Normal;
+                        if ($element.ngRefresh != undefined) {
+                            if (angular.uppercase($element.ngRefresh) == angular.uppercase(Refresh[Refresh.Auto])) {
+                                myself.scrollbarRefresh = Refresh.Auto;
+                            }
+                            if (angular.uppercase($element.ngRefresh) == angular.uppercase(Refresh[Refresh.Manual])) {
+                                myself.scrollbarRefresh = Refresh.Manual;
+                            }
                         }
                         var isNumber = /[1-9][0-9]*/i;
                         if ($element.ngDisplay != undefined) {
@@ -326,6 +344,13 @@ var Scroll;
                         _this.scrollBarRightLine.style.height = ScrollNow + "px";
                     }
                     angular.element(_this.scrollBarRightLine).bind("mousedown", _this.MousemoveSelectfn);
+                    if (ScrollNow == _this.scrollItemHeight) {
+                        angular.element(_this.scrollBarRight).css("display", "none");
+                    }
+                    else {
+                        angular.element(_this.scrollBarRight).css("display", "block");
+                    }
+                    _this.RightScrollMove(0);
                 }
                 if (_this.selfElement.offsetWidth != _this.scrollBoxWidth) {
                     angular.element(_this.scrollBarBottomLine).unbind("mousedown", _this.MousemoveSelectBtfn);
@@ -345,8 +370,17 @@ var Scroll;
                         _this.scrollBarBottomLine.style.width = ScrollNow + "px";
                     }
                     angular.element(_this.scrollBarBottomLine).bind("mousedown", _this.MousemoveSelectBtfn);
+                    if (ScrollNow == _this.scrollItemWidth) {
+                        angular.element(_this.scrollBarBottom).css("display", "none");
+                    }
+                    else {
+                        angular.element(_this.scrollBarBottom).css("display", "block");
+                    }
+                    _this.BottomScrollMove(0);
                 }
-                window.requestAnimationFrame(_this.UpdateScroll);
+                if (_this.scrollbarRefresh == Refresh.Auto) {
+                    window.requestAnimationFrame(_this.UpdateScroll);
+                }
                 return 0;
             };
             this.NoSelect = function (e) {
@@ -446,13 +480,22 @@ var Scroll;
                 angular.element(document.body).addClass("noselect");
                 angular.element(document).bind("mousemove", _this.MousemoveMovefn);
             };
-            return this.buildfunction();
+            this.Directive = this.buildfunction();
+            ScrollbarEx.ScrollBarList.push(this);
+            return this.Directive;
         }
+        ScrollbarEx.ScrollBarList = [];
         return ScrollbarEx;
     })();
     Scroll.ScrollbarEx = ScrollbarEx;
     angular.module('scrollbar', []).directive("scroll", function () {
         return new ScrollbarEx("");
+    }).service('ChangeScrollBar', function () {
+        var _value = ScrollbarEx.ScrollBarList[ScrollbarEx.ScrollBarList.length - 1];
+        return function () {
+            _value.UpdateScroll();
+        };
+        //service code
     });
 })(Scroll || (Scroll = {}));
 //# sourceMappingURL=scrollbarEx.js.map

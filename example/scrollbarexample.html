@@ -17,6 +17,7 @@
     <div ng-app="myApp" ng-controller="myCtrl">
         <scroll ng-width="300px" ng-height="200px" ng-arrow="HasArrow" ng-display="static">
             welcome : <input ng-model="name">
+            <button ng-click="toggle()">隐藏/显示</button>
            <div>my {{name}}</div>
         <div style="width: 800px; height: 500px;background-color:blue;border-radius:100px;"></div>
         </scroll>
@@ -44,8 +45,11 @@
         </div>
     <script>
         var app = angular.module('myApp', ['scrollbar']);
-        app.controller('myCtrl', function ($scope) {
+        app.controller('myCtrl', function ($scope, ChangeScrollBar) {
             $scope.name = " scroll bar";
+            $scope.toggle = function () {
+                ChangeScrollBar();
+            };
         });
         var app1 = angular.module('myApp1', ['scrollbar']);
         app1.controller('myCtrl', function ($scope) {

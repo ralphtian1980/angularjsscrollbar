@@ -23,8 +23,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="angular.js" />
+    <Content Include="scrollbar - Copy.html" />
     <Content Include="scrollbar.css" />
-    <Content Include="scrollbarexample.html" />
+    <Content Include="scrollbar.html" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>

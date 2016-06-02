@@ -9,7 +9,8 @@ var Scroll;
     var Refresh;
     (function (Refresh) {
         Refresh[Refresh["Normal"] = 1] = "Normal";
-        Refresh[Refresh["Auto"] = 2] = "Auto";
+        Refresh[Refresh["Manual"] = 2] = "Manual";
+        Refresh[Refresh["Auto"] = 3] = "Auto";
     })(Refresh || (Refresh = {}));
     var ScrollBarDisplay;
     (function (ScrollBarDisplay) {
@@ -82,6 +83,14 @@ var Scroll;
                                 if (angular.element(itemlist[i]).hasClass("scrollbodyCSS")) {
                                     myself.scrollbody = itemlist[i];
                                     myself.selfElement = angular.element(myself.scrollbody).children("div.selfElementCSS")[0];
+                                    if (myself.scrollbarRefresh == Refresh.Normal) {
+                                        var mo = new MutationObserver(function () { myself.UpdateScroll(); });
+                                        var option = {
+                                            'subtree': true,
+                                            'characterData': true
+                                        };
+                                        mo.observe(myself.selfElement, option);
+                                    }
                                 }
                                 if (angular.element(itemlist[i]).hasClass("scrollBarRightCSS")) {
                                     myself.scrollBarRight = itemlist[i];
@@ -134,16 +143,11 @@ var Scroll;
                             myself.UpdateScroll();
                             angular.element(myself.scrollBarRightLine).bind("dragstart", t);
                             angular.element(myself.scrollBarBottomLine).bind("dragstart", t);
-                            //angular.element(window).bind("resize", function (e) {
-                            //    if (myself.scrollLayoutHeight == Layout.Percentage) {
-                            //        myself.scrollItemHeight = myself.scrollbox.clientHeight;
-                            //        myself.scrollBoxHeight = 0;
-                            //    }
-                            //    if (myself.scrollLayoutWidth == Layout.Percentage) {
-                            //        myself.scrollItemWidth = myself.scrollbox.clientWidth;
-                            //        myself.scrollBoxWidth = 0;
-                            //    }
-                            //});
+                            if (myself.scrollbarRefresh == Refresh.Normal) {
+                                angular.element(window).bind("resize", function (e) {
+                                    myself.UpdateScroll();
+                                });
+                            }
                         };
                         angular.element().ready(f);
                     },
@@ -160,6 +164,9 @@ var Scroll;
                         if ($element.ngRefresh != undefined) {
                             if (angular.uppercase($element.ngRefresh) == angular.uppercase(Refresh[Refresh.Auto])) {
                                 myself.scrollbarRefresh = Refresh.Auto;
+                            }
+                            if (angular.uppercase($element.ngRefresh) == angular.uppercase(Refresh[Refresh.Manual])) {
+                                myself.scrollbarRefresh = Refresh.Manual;
                             }
                         }
                         var isNumber = /[1-9][0-9]*/i;
@@ -343,6 +350,7 @@ var Scroll;
                     else {
                         angular.element(_this.scrollBarRight).css("display", "block");
                     }
+                    _this.RightScrollMove(0);
                 }
                 if (_this.selfElement.offsetWidth != _this.scrollBoxWidth) {
                     angular.element(_this.scrollBarBottomLine).unbind("mousedown", _this.MousemoveSelectBtfn);
@@ -368,6 +376,7 @@ var Scroll;
                     else {
                         angular.element(_this.scrollBarBottom).css("display", "block");
                     }
+                    _this.BottomScrollMove(0);
                 }
                 if (_this.scrollbarRefresh == Refresh.Auto) {
                     window.requestAnimationFrame(_this.UpdateScroll);

@@ -5,15 +5,15 @@
     <title></title>
 	<meta charset="utf-8" />
     <link rel="stylesheet" href="scrollbar.css" type="text/css" />
-    <script src="angular.js"></script>
+    <script src="ionic.js"></script>
     <!--<script src="scroll.js"></script>-->
     <script src="scrollbarEx.js"></script>
 </head>
 <body>
     <div ng-app="myApp" ng-controller="myCtrl">
-        <div id="testdiv" style="width:100%;height:500px;">
+        <div id="testdiv" style="width:800px;height:500px;">
             <div style="width:90%;height:90%;">
-                <scroll ng-width="60%" ng-height="100%" ng-layout="Percentage" ng-arrow="HasArrow" ng-display="static">
+                <scroll ng-width="100%" ng-height="100%" ng-layout="WPercentage|HPercentage" ng-arrow="HasArrow" ng-display="static">
                     <!--<scroll ng-width="500" ng-height="500">-->
                     <button ng-click="toggle()">control</button>
                     welcome : <input ng-model="name">
@@ -28,7 +28,7 @@
     <div id="othersrollbar" ng-controller="myCtrl">
         <div id="testdiv1" style="width:100%;height:500px;">
             <div style="width:90%;height:90%;">
-                <scroll ng-width="60%" ng-height="100%" ng-layout="Percentage" ng-arrow="HasArrow" ng-refresh="manual">
+                <scroll ng-width="60%" ng-height="100%" ng-layout="WPercentage|HPercentage" ng-arrow="HasArrow" ng-refresh="manual">
                     <!--<scroll ng-width="500" ng-height="500">-->
                     <button ng-click="toggle()">control</button>
                     welcome : <input ng-model="name">
@@ -41,11 +41,8 @@
     </div>
     <script>
         var app = angular.module('myApp', ['scrollbar']);
-        app.controller('myCtrl', function ($scope, ChangeScrollBar) {
+        app.controller('myCtrl', function ($scope) {
             $scope.name = " scroll bar";
-            $scope.toggle = function () {
-                ChangeScrollBar();
-            };
         });
         var app1 = angular.module('myApp1', ['scrollbar']);
         app1.controller('myCtrl', function ($scope, ChangeScrollBar) {

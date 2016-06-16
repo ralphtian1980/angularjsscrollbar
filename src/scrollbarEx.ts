@@ -20,9 +20,18 @@ namespace Scroll {
         right = 1,
         bottom
     }
+    enum Direction {
+        xy = 1,
+        x,
+        y
+    }
     enum Layout {
         Solid=1,
-        Percentage
+        Percentage,
+        WSolid,
+        HSolid,
+        WPercentage,
+        HPercentage
     }
     enum Config {
         Normal = 1,
@@ -57,8 +66,8 @@ namespace Scroll {
         ScrollDisplay: ScrollBarDisplay;
         scrollItemHeight: number;
         scrollItemWidth: number;
-        scrollLayoutHeight: Layout;
-        scrollLayoutWidth: Layout;
+        scrollLayoutHeight: Layout = Layout.Solid;
+        scrollLayoutWidth: Layout = Layout.Solid;
         scrollMarginleft: number;
         scrollMarginTop: number;
         scrollShell: HTMLElement;
@@ -188,13 +197,42 @@ namespace Scroll {
                     angular.element().ready(f);
                 },
                 template: function ($scope, $element, $attrs) {
-                    if ($element.ngLayout != undefined && angular.uppercase($element.ngLayout) == angular.uppercase(Layout[Layout.Percentage])) {
-                        myself.scrollLayoutWidth = Layout.Percentage;
-                        myself.scrollLayoutHeight = Layout.Percentage;
-                    } else {
-                        myself.scrollLayoutWidth = Layout.Solid;
-                        myself.scrollLayoutHeight = Layout.Solid;
+                    let isX: boolean = false;
+                    let isY: boolean = false;
+                    if ($element.ngDirection == undefined) {
+                        isX = true;
+                        isY = true;
                     }
+                    else {
+                        if (angular.uppercase($element.ngDirection).indexOf("x") > -1) {
+                            isX = true;
+                        }
+                        if (angular.uppercase($element.ngDirection).indexOf("y") > -1) {
+                            isY = true
+                        }
+                    }
+                    if ($element.ngLayout != undefined) {
+                        if (angular.uppercase($element.ngLayout).indexOf(angular.uppercase(Layout[Layout.WPercentage])) > -1) {
+                            myself.scrollLayoutWidth = Layout.Percentage;
+                        }
+                        if (angular.uppercase($element.ngLayout).indexOf(angular.uppercase(Layout[Layout.HPercentage])) > -1) {
+                            myself.scrollLayoutHeight = Layout.Percentage;
+                        }
+                        if (angular.uppercase($element.ngLayout).indexOf(angular.uppercase(Layout[Layout.WSolid])) > -1) {
+                            myself.scrollLayoutWidth = Layout.Solid;
+                        }
+                        if (angular.uppercase($element.ngLayout).indexOf(angular.uppercase(Layout[Layout.HSolid])) > -1) {
+                            myself.scrollLayoutHeight = Layout.Solid;
+                        }
+
+                    }
+                    //if ($element.ngLayout != undefined && angular.uppercase($element.ngLayout).indexOf( angular.uppercase(Layout[Layout.Percentage]))) {
+                    //    myself.scrollLayoutWidth =  Layout.Percentage;
+                    //    myself.scrollLayoutHeight = Layout.Percentage;
+                    //} else {
+                    //    myself.scrollLayoutWidth = Layout.Solid;
+                    //    myself.scrollLayoutHeight = Layout.Solid;
+                    //}
                     myself.scrollbarRefresh = Refresh.Normal;
                     if ($element.ngRefresh != undefined) {
                         if (angular.uppercase($element.ngRefresh) == angular.uppercase(Refresh[Refresh.Auto])) {

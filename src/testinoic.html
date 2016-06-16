@@ -1,0 +1,144 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>菜鸟教程(runoob.com)</title>
+    <link href="css/ionic.css" rel="stylesheet">
+    <script src="js/ionic.bundle.js"></script>
+</head>
+<body ng-app="todo" ng-controller="TodoCtrl">
+    <div class="bar bar-header">
+        <button class="button button-icon" ng-click="toggleProjects()">
+            <i class="icon ion-navicon"></i>
+            <!--<div>123</div>
+            <div>567</div>-->
+        </button>
+        <h1 class="title" id="max">等宽列</h1>
+        <!-- 新增按钮 -->
+        <button class="button button-icon">
+            <i class="icon">注销</i>
+            <i class="icon">修改密码</i>
+        </button>
+        <!--<button class="button button-icon" ng-click="newTask()">
+            <i class="icon ion-compose"></i>
+        </button>-->
+    </div>
+    <ion-side-menus>
+        <!-- 中心内容 -->
+        <ion-side-menu-content>
+            <ion-header-bar class="bar-dark">
+                <button class="button button-icon" ng-click="toggleProjects()">
+                    <i class="icon ion-navicon"></i>
+                </button>
+                <h1 class="title">{{activeProject.title}}</h1>
+                <button class="button button-icon" ng-click="newTask()">
+                    <i class="icon ion-compose"></i>
+                </button>
+</ion-header-bar>
+            <ion-content scroll="false">
+                <div class="row">
+                    <div class="col-20" style="font-size:2em">
+                            <ion-list>
+                                <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
+                                    {{project.title}}
+                                </ion-item>
+                            </ion-list>
+                    </div>
+                    <div class="col-80">
+                        <div class="row">
+                            <div class="col-10">
+                            </div>
+                            <div class="col-90">
+                                <ion-list>
+                                    <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
+                                        {{project.title}}
+                                    </ion-item>
+                                </ion-list>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ion-content>
+        </ion-side-menu-content>
+
+        <!-- 左边栏 -->
+        <ion-side-menu side="left">
+            <ion-header-bar class="bar-dark">
+                <h1 class="title">Projects</h1>
+                <button class="button button-icon ion-plus" ng-click="newProject()"></button>
+            </ion-header-bar>
+            <ion-content scroll="true">
+                <ion-list>
+                    <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
+                        {{project.title}}
+                    </ion-item>
+                </ion-list>
+            </ion-content>
+        </ion-side-menu>
+
+    </ion-side-menus>
+
+    <!--  新增页面 -->
+    <script id="new-task.html" type="text/ng-template">
+
+        <div class="modal">
+
+            <!-- Modal header bar -->
+            <ion-header-bar class="bar-secondary">
+                <h1 class="title">New Task</h1>
+                <button class="button button-clear button-positive" ng-click="closeNewTask()">Cancel</button>
+            </ion-header-bar>
+
+            <!-- Modal content area -->
+            <ion-content>
+
+                <form ng-submit="createTask(task)">
+                    <div class="list">
+                        <label class="item item-input">
+                            <input type="text" placeholder="What do you need to do?" ng-model="task.title">
+                        </label>
+                    </div>
+                    <div class="padding">
+                        <button type="submit" class="button button-block button-positive">Create Task</button>
+                    </div>
+                </form>
+
+            </ion-content>
+
+        </div>
+
+    </script>
+    <script src="ionicscroll.js"></script>
+    <!--<script src="cordova.js"></script>-->
+</body>
+</html>
+
+<script type="text/javascript">
+/*
+* 智能机浏览器版本信息:
+*
+*/
+  var browser={
+    versions:function(){
+           var u = navigator.userAgent, app = navigator.appVersion;
+           return{//移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1,//IE内核
+                presto: u.indexOf('Presto') > -1,//opera内核
+                webKit: u.indexOf('AppleWebKit') > -1,//苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/)||!!u.match(/AppleWebKit/),//是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),//ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1,//是否iPad
+                webApp: u.indexOf('Safari') == -1//是否web应该程序，没有头部与底部
+            };
+         }(),
+         language:(navigator.browserLanguage || navigator.language).toLowerCase()
+  }
+  var HTML = "语言版本: " + browser.language + "  是否为移动终端: " + browser.versions.mobile
+    + " ios终端: " + browser.versions.ios + " android终端: " + browser.versions.android
+    + " 是否为iPhone: " + browser.versions.iPhone + " 是否iPad: " + browser.versions.iPad + " " + navigator.userAgent;
+  document.getElementById("max").innerHTML = "HTML";
+
+</script>

@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -23,9 +23,33 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="angular.js" />
+    <Content Include="css\ionic.css" />
+    <Content Include="css\ionic.min.css" />
+    <Content Include="fonts\ionicons.svg" />
+    <Content Include="ionic.css" />
+    <Content Include="ionic.js" />
+    <Content Include="ioniccsrollbar.html" />
+    <Content Include="ionicscroll.js" />
+    <Content Include="js\angular-ui\angular-ui-router.js" />
+    <Content Include="js\angular-ui\angular-ui-router.min.js" />
+    <Content Include="js\angular\angular-animate.js" />
+    <Content Include="js\angular\angular-animate.min.js" />
+    <Content Include="js\angular\angular-resource.js" />
+    <Content Include="js\angular\angular-resource.min.js" />
+    <Content Include="js\angular\angular-sanitize.js" />
+    <Content Include="js\angular\angular-sanitize.min.js" />
+    <Content Include="js\angular\angular.js" />
+    <Content Include="js\angular\angular.min.js" />
+    <Content Include="js\ionic-angular.js" />
+    <Content Include="js\ionic-angular.min.js" />
+    <Content Include="js\ionic.bundle.js" />
+    <Content Include="js\ionic.bundle.min.js" />
+    <Content Include="js\ionic.js" />
+    <Content Include="js\ionic.min.js" />
     <Content Include="scrollbar - Copy.html" />
     <Content Include="scrollbar.css" />
     <Content Include="scrollbar.html" />
+    <Content Include="testinoic.html" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +57,9 @@
     <TypeScriptCompile Include="scrollbarEx.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="fonts\ionicons.eot" />
+    <Content Include="fonts\ionicons.ttf" />
+    <Content Include="fonts\ionicons.woff" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

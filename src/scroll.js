@@ -416,7 +416,7 @@ var Scroll;
             return this.buildfunction();
         }
         return Scrollbar;
-    })();
+    }());
     Scroll.Scrollbar = Scrollbar;
     angular.module('scrollbar', []).directive("scroll", function () {
         return new Scrollbar("");

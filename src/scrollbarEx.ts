@@ -226,13 +226,6 @@ namespace Scroll {
                         }
 
                     }
-                    //if ($element.ngLayout != undefined && angular.uppercase($element.ngLayout).indexOf( angular.uppercase(Layout[Layout.Percentage]))) {
-                    //    myself.scrollLayoutWidth =  Layout.Percentage;
-                    //    myself.scrollLayoutHeight = Layout.Percentage;
-                    //} else {
-                    //    myself.scrollLayoutWidth = Layout.Solid;
-                    //    myself.scrollLayoutHeight = Layout.Solid;
-                    //}
                     myself.scrollbarRefresh = Refresh.Normal;
                     if ($element.ngRefresh != undefined) {
                         if (angular.uppercase($element.ngRefresh) == angular.uppercase(Refresh[Refresh.Auto])) {
